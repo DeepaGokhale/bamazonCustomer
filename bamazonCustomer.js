@@ -1,40 +1,10 @@
-//var Connection = require("./dbConnection");
+var config = require("./dbConnection");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Product = require("./products");
 
-const config = {
-  host: "localhost",
-  
-  // Your port; if not 3306
-  port: 3306,
-
-  // Your username
-  user: "root",
-
-  // Your password
-  password: "root1234",
-  database: "bamazon"
-}
-
 var results = [];
 var selectedItem = [];
-
-// var connection = function(qry){
-//     mysql.createConnection({
-//       host: "localhost",
-    
-//       // Your port; if not 3306
-//       port: 3306,
-    
-//       // Your username
-//       user: "root",
-    
-//       // Your password
-//       password: "root1234",
-//       database: "bamazon"
-//   });
-// }
 
 //show the products
 getProductsForSale();
@@ -68,7 +38,7 @@ function SellProducts(){
             }
             else
             {
-                console.log("sorry! That quantity is not available!");
+                console.log("sorry! That quantity is not availabl. The order did not go through");
             }
         }        
         else
@@ -101,7 +71,7 @@ function SellProducts(){
                 }
                 else
                 {
-                    console.log("Something went wrong! That was incoorect ItemID or the quantity. Try again!")
+                    console.log("Something went wrong! That was incorrect ItemID or the quantity. Try again!")
                 }
             });
         }
@@ -120,6 +90,7 @@ function canWeSell(itemId, qty){
             {
                 selectedItem.push(results[i]);
                 selectedItem[0].quantity = availableQty - qty;
+                //update the sales table
                 return true;
             }
             else
@@ -131,39 +102,31 @@ function canWeSell(itemId, qty){
 } 
 
 function getProductsForSale()
-{
-    var productArr = [];    
+{ 
     var strQry = "SELECT * FROM products where stock_quantity > 0";
     getDataProducts(strQry, 0);  
 }
 
-function getDataSales(itemID, quantity)
-{
-    //insert into sales table
-    // var connection = mysql.createConnection(config);
-    // var data = [];
+// function getDataSales(salesItem, quantity)
+// {
+//     //insert into sales table
+//     var connection = mysql.createConnection(config);
+//     var strQry = "Insert into Sales " + salesItem[0]
+//     var data = [];
         
-    // if(quantity == 0)
-    // {
-    //     connection.query(strQry, function(err, res) {
-    //         if (err) throw err;
-    //         res.forEach(item => {
-    //                 var myProduct = new Product(item.item_id, item.product_name, item.department_name, item.price, item.stock_quantity);
-    //                 data.push(myProduct);                          
-    //             }); 
-    //         displayProductData(data);   
-    //         connection.end();            
-    //     });
-    // }
-    // else
-    // {            
-    //     //Update the qty - the sale went through
-    //     connection.query(strQry, function(err, res) {
-    //         if (err) throw err;
-    //         Console.log("The sale went through! Updated the inventory!");
-    //     });
-    // }
- }
+//     if(quantity > 0)
+//     {
+//         connection.query(strQry, function(err, res) {
+//             if (err) throw err;
+//             res.forEach(item => {
+//                     var myProduct = new Product(item.item_id, item.product_name, item.department_name, item.price, item.stock_quantity);
+//                     data.push(myProduct);                          
+//                 }); 
+//             displayProductData(data);   
+//             connection.end();            
+//         });
+//     }
+//  }
 
 
 function getDataProducts(strQry, quantity)
@@ -199,8 +162,8 @@ function displayProductData(prodArr)
 {
     prodArr.forEach(item => {
         console.log(`
-        ============ ItemID: ${item.itemID} ============
-        Product: ${item.name},
+        ============================ ItemID: ${item.itemID} ============================
+        Product: ${item.name}
         Price: ${item.price}
         `)        
         results.push(item);

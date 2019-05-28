@@ -13,6 +13,25 @@ CREATE TABLE products (
   stock_quantity int,
   PRIMARY KEY (item_id)
 );
+
+CREATE TABLE departments (
+  department_id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(255),
+  over_head_costs decimal(10,2)
+  PRIMARY KEY (department_id)
+);
+
+-- Insert mock data for departments
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ('electronics', 1000.00),
+('sports & fitness', 750.00),
+('home & garden', 500.00),
+('home & kitchen', 300.00),
+('electronics', 100.00),
+('cell phone & accessories', 300.00),
+('art supplies',68.00)
+
+
 --insert some mock data - using just one time to insert all
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ('Anker blue tooth speaker', 'electronics', 49.99, 5),
@@ -25,6 +44,6 @@ VALUES ('Anker blue tooth speaker', 'electronics', 49.99, 5),
 ('Biulotter 20Pcs Kids Beach Sand Toys Set', 'toys & games', 12.99, 6),
 ('Hand-Crafted Ultrasonic Essential Oil Diffuser', 'home & garden', 45.25, 3),
 ('USB Type C Cable,4 Pack', 'cell phone & accessories', 12.69, 8),
-('ARTEZA Kids Premium Watercolor Paint Set', 'all', 8.18, 12)
+('ARTEZA Kids Premium Watercolor Paint Set', 'art supplies', 8.18, 12)
 -- test to see if the data was inserted
 select * from products
